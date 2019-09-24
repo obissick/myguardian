@@ -33,7 +33,13 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        @guest
+                            &nbsp;
+                        @else
+                            <li><a class="nav-link" href="{{ route('home') }}">Dashboard</a></li>
+                            <li><a class="nav-link" href="{{ route('servers.index') }}">Servers</a></li>
+                            <li><a class="nav-link" href="{{ route('users.index') }}">Users</a></li>
+                        @endguest
                     </ul>
 
                     <!-- Right Side Of Navbar -->
