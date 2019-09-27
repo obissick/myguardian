@@ -9,6 +9,11 @@ use App\DBUser;
 
 class DBUserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,8 +25,8 @@ class DBUserController extends Controller
         $users = DB::table('servers')
             ->join('dbuser_access', 'servers.id', '=', 'dbuser_access.server_id')
             ->select('dbuser_access.*', 'servers.name')
-            ->where('user_id', Auth::user()->id)
-            ->paginate(25);
+            ->where('user_id', Auth::user()->id)->get();
+            //->paginate(25);
         
         return view('users.index', compact('users'));
     }
@@ -78,7 +83,10 @@ class DBUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = DBUser::where('id', $id)->update(['expire' => $request->time]);
+
+        session()->flash('flash_message', 'Expire time added.');
+        return redirect('users');
     }
 
     /**

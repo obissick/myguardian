@@ -46,9 +46,9 @@ class SyncDBUser extends Command
         $db_servers = DBServer::all();
 
         foreach($db_servers as $db_server) {
-            $dbusers = DBUser::where('server_id', $db_server->id);
+            //$dbusers = DBUser::where('server_id', $db_server->id)->get();
+            echo $db_server->id;
             $capsule = new Capsule;
-
             $capsule->addConnection([
                 'driver'    => 'mysql',
                 'host'      => $db_server->ip,
@@ -62,32 +62,15 @@ class SyncDBUser extends Command
             $capsule->setAsGlobal();
             try{
                 $results = Capsule::select('select * from user');
-                // display a message if connected to database successfully
                 if($results){
                     foreach ($results as $result) {
-                        if($dbusers){
-                            /*foreach ($dbusers as $dbuser) {
-                                
-                                if($dbuser->user.'@'.$dbuser->host == $result->User.'@'.$results->Host){
+                        $dbuser = DBUser::where([['server_id', $db_server->id], ['user', $result->User], ['host', $result->Host]])->get();
+                        if(!$dbuser->isEmpty()){
                             
-                                } 
-                                else{
-                                    $new = new DBUser;
-                                    $new->server_id = $db_server->id;
-                                    $new->user = $result->User;
-                                    $new->host = $result->Host;
-                                    $new->expire = null;
-                                    $new->save();
-                                }
-                            }
                         }
-                        else{*/
-                            $new = new DBUser;
-                            $new->server_id = $db_server->id;
-                            $new->user = $result->User;
-                            $new->host = $result->Host;
-                            $new->expire = null;
-                            $new->save();
+                        else{
+                            echo "Adding new user...";
+                            $this->adduser($result, $db_server);
                         }
                     } 
                 }
@@ -96,5 +79,19 @@ class SyncDBUser extends Command
                 echo $e->getMessage();
             }
         }
+    }
+
+    public function adduser($result, $db_server)
+    {
+        $new = new DBUser;
+        $new->server_id = $db_server->id;
+        $new->user = $result->User;
+        $new->host = $result->Host;
+        $new->expire = null;
+        $new->save();
+    }
+
+    public function removeuser($id){
+        DBUser::where('id', '=', $id)->delete();
     }
 }
