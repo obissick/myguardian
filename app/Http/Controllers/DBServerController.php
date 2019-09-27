@@ -100,6 +100,8 @@ class DBServerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $servers = DBServer::where('id', $id)->delete();
+        session()->flash('flash_message', 'Server Deleted.');
+        return redirect('servers');
     }
 }

@@ -39,11 +39,20 @@
                             </td>
 
                             <td>
-                                {{ $user->expired }}
+                                @if ($user->expired === 0)
+                                    No
+                                @else
+                                    Yes
+                                @endif 
                             </td>
 
                             <td>
-                                <button class="btn btn-info btn-xs btn-detail edit-user" value="{{$user->id}}" data-toggle="modal" data-target="#edit">Set Expire</button> 
+                                @if ($user->expire)
+                                    <button class="btn btn-info btn-xs btn-detail edit-user" value="{{$user->id}}" data-toggle="modal" data-target="#edit">Update Expire</button>
+                                @else
+                                    <button class="btn btn-warning btn-xs btn-detail edit-user" value="{{$user->id}}" data-toggle="modal" data-target="#edit">Set Expire</button>
+                                @endif
+                                 
                             </td>
                         </tr>
                     @endforeach

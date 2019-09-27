@@ -23,6 +23,7 @@ class CreateDbserversTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->unique('ip', 'port');
         });
     }
 

@@ -25,7 +25,7 @@
                     @foreach ($servers as $server)
                         <tr>
                             <td class="table-text">
-                                <div><a href="{{route('servers.show', $server->id)}}">{{ $server->name }}</a></div>
+                                {{ $server->name }}
                             </td>
 
                             <td>
@@ -41,10 +41,11 @@
                             </td>
 
                             <td>
-                                <div class="btn-group" role="group" aria-label="...">
-                                    <button class="btn btn-info btn-xs btn-detail edit-server" value="{{$server->id}}" data-toggle="modal" data-target="#server">Edit</button>
-                                    <button class="btn btn-danger btn-xs btn-delete delete-server" value="{{$server->id}}">Delete</button>
-                                </div>
+                                {!! Form::open(['route' => ['servers.destroy', $server->id], 'method' => 'delete']) !!}
+                                    <a class="btn btn-info btn-xs btn-detail edit-server" value="{{$server->id}}" data-toggle="modal" data-target="#server">Edit</a>
+                                    {!! Form::hidden('id', $server->id) !!}
+                                    {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-xs']) !!}
+                                {!! Form::close() !!}
                             </td>
                         </tr>
                     @endforeach

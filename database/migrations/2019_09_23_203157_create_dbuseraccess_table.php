@@ -19,7 +19,7 @@ class CreateDbuseraccessTable extends Migration
             $table->string('user');
             $table->string('host');
             $table->dateTime('expire')->nullable($value = true);
-            $table->boolean('expired')->nullable($value = true);
+            $table->boolean('expired')->default($value = false);
             $table->timestamps();
             $table->foreign('server_id')->references('id')->on('servers')->onDelete('cascade');
             $table->unique('server_id', 'user', 'host');
