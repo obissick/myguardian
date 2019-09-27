@@ -8,15 +8,14 @@
     <div class="row">
         <div class="table-responsive-sm">
             <br />
-            <!-- Table-to-load-the-data Part -->
-            <!--<input type="search" class="light-table-filter" data-table="table" placeholder="Filter/Search">-->
             <table class="table table-responsive display" id="users">
                 <thead>
                     <tr>
                         <th>Server</th>
                         <th>User</th>
                         <th>Host</th>
-                        <th>Access Expire</th>
+                        <th>Expire Date</th>
+                        <th>Expired</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -40,6 +39,10 @@
                             </td>
 
                             <td>
+                                {{ $user->expired }}
+                            </td>
+
+                            <td>
                                 <button class="btn btn-info btn-xs btn-detail edit-user" value="{{$user->id}}" data-toggle="modal" data-target="#edit">Set Expire</button> 
                             </td>
                         </tr>
@@ -51,6 +54,8 @@
                         <th>User</th>
                         <th>Host</th>
                         <th>Access Expire</th>
+                        <th>Expired</th>
+                        <th>Actions</th>
                     </tr>
                 </tfoot>
             </table>
@@ -122,46 +127,5 @@
         $(".modal-body #id").val($(this).data('id')); 
     });
 </script>
-<!--<script>
-    (function(document) {
-        'use strict';
-    
-        var TableFilter = (function(Arr) {
-    
-            var _input;
-    
-            function _onInputEvent(e) {
-            _input = e.target;
-            var tables = document.getElementsByClassName(_input.getAttribute('data-table'));
-            Arr.forEach.call(tables, function(table) {
-            Arr.forEach.call(table.tBodies, function(tbody) {
-            Arr.forEach.call(tbody.rows, _filter);
-            });
-            });
-            }
-    
-            function _filter(row) {
-            var text = row.textContent.toLowerCase(), val = _input.value.toLowerCase();
-            row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
-            }
-    
-            return {
-            init: function() {
-            var inputs = document.getElementsByClassName('light-table-filter');
-            Arr.forEach.call(inputs, function(input) {
-            input.oninput = _onInputEvent;
-            });
-            }
-            };
-        })(Array.prototype);
-    
-        document.addEventListener('readystatechange', function() {
-            if (document.readyState === 'complete') {
-            TableFilter.init();
-            }
-        });
-    
-    })(document);
-</script>-->
 
 @endsection

@@ -43,11 +43,16 @@ class SyncDBUser extends Command
      */
     public function handle()
     {
+        $this->processAdd();
+        $this->processDelete();
+    }
+
+    public function processAdd(){
         $db_servers = DBServer::all();
 
         foreach($db_servers as $db_server) {
             //$dbusers = DBUser::where('server_id', $db_server->id)->get();
-            echo $db_server->id;
+            print_r($db_server->name);
             $capsule = new Capsule;
             $capsule->addConnection([
                 'driver'    => 'mysql',
@@ -81,6 +86,41 @@ class SyncDBUser extends Command
         }
     }
 
+    public function processDelete()
+    {
+        $db_servers = DBServer::all();
+
+        foreach($db_servers as $db_server) {
+            $capsule = new Capsule;
+            $capsule->addConnection([
+                'driver'    => 'mysql',
+                'host'      => $db_server->ip,
+                'database'  => 'mysql',
+                'username'  => $db_server->username,
+                'password'  => Crypt::decrypt($db_server->password),
+                'charset'   => 'utf8',
+                'collation' => 'utf8_unicode_ci',
+                'prefix'    => '',
+            ]);
+            $capsule->setAsGlobal();
+            try{
+                $dbusers = DBUser::where([['server_id', $db_server->id]])->get();
+                if(!$dbusers->isEmpty()){
+                    foreach ($dbusers as $dbuser) {
+                        $results = Capsule::select("select * from user where User='".$dbuser->user."' and Host='".$dbuser->host."'");
+                        if(empty($results)){
+                            echo "User doesnt exist: ".$dbuser->user;
+                            $this->removeuser($dbuser->id);
+                        }    
+                    } 
+                }
+            }catch (Exception $e){
+                // report error message
+                echo $e->getMessage();
+            }
+        }
+    }
+
     public function adduser($result, $db_server)
     {
         $new = new DBUser;
@@ -92,6 +132,6 @@ class SyncDBUser extends Command
     }
 
     public function removeuser($id){
-        DBUser::where('id', '=', $id)->delete();
+        DBUser::where('id', $id)->delete();
     }
 }

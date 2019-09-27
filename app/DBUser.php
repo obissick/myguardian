@@ -9,7 +9,7 @@ class DBUser extends Model
     protected $table = 'dbuser_access';
 
     protected $fillable = [
-        'server_id', 'user', 'host', 'user_id', 'expire',
+        'server_id', 'user', 'host', 'user_id', 'expire', 'expired',
     ];
     public function dbserver()
     {

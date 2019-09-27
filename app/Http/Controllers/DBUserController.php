@@ -83,7 +83,7 @@ class DBUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = DBUser::where('id', $id)->update(['expire' => $request->time]);
+        $user = DBUser::where('id', $id)->update(['expire' => date("Y/m/d H:i:s", strtotime($request->time))]);
 
         session()->flash('flash_message', 'Expire time added.');
         return redirect('users');
