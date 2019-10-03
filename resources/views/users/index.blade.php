@@ -21,7 +21,11 @@
                 </thead>
                 <tbody id="users-list" name="users-list">
                     @foreach ($users as $user)
-                        <tr>
+                        @if ($user->expired == 0)
+                            <tr>
+                        @else
+                            <tr class="table-danger">
+                        @endif
                             <td class="table-text">
                                 <div>{{ $user->name }}</div>
                             </td>
@@ -39,7 +43,7 @@
                             </td>
 
                             <td>
-                                @if ($user->expired === 0)
+                                @if ($user->expired == 0)
                                     No
                                 @else
                                     Yes

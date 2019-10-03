@@ -54,8 +54,7 @@ class DBServerController extends Controller
             'user_id' => Auth::user()->id,
         ]);
         $server->save();
-        session()->flash('flash_message', 'Server added.');
-        return redirect('servers');
+        return back()->with('success', 'Server added.');
     }
 
     /**
@@ -101,7 +100,6 @@ class DBServerController extends Controller
     public function destroy($id)
     {
         $servers = DBServer::where('id', $id)->delete();
-        session()->flash('flash_message', 'Server Deleted.');
-        return redirect('servers');
+        return back()->with('success', 'Server deleted.');
     }
 }

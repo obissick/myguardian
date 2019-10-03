@@ -64,7 +64,7 @@ class ExpireDBUser extends Command
                     foreach ($dbusers as $dbuser) {
                         echo "User: ".$dbuser->user."@".$dbuser->host." Expired, removing access.";
                         $results = Capsule::select("REVOKE ALL PRIVILEGES, GRANT OPTION FROM '".$dbuser->user."'@'".$dbuser->host."'");
-                        DBUser::where('id', $dbuser->id)->update(['expired' => true]);
+                        DBUser::where('id', $dbuser->id)->update(['expired' => true, 'expire' => null]);
                     } 
                 }
             }catch (Exception $e){

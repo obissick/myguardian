@@ -52,7 +52,7 @@ class SyncDBUser extends Command
 
         foreach($db_servers as $db_server) {
             //$dbusers = DBUser::where('server_id', $db_server->id)->get();
-            print_r($db_server->name);
+            echo "Getting users from server: ".$db_server->name."\n";
             $capsule = new Capsule;
             $capsule->addConnection([
                 'driver'    => 'mysql',
@@ -70,11 +70,8 @@ class SyncDBUser extends Command
                 if($results){
                     foreach ($results as $result) {
                         $dbuser = DBUser::where([['server_id', $db_server->id], ['user', $result->User], ['host', $result->Host]])->get();
-                        if(!$dbuser->isEmpty()){
-                            
-                        }
-                        else{
-                            echo "Adding new user...";
+                        if($dbuser->isEmpty()){
+                            echo "Adding new user: ".$result->User."@".$result->Host."\n";
                             $this->adduser($result, $db_server);
                         }
                     } 
@@ -109,7 +106,7 @@ class SyncDBUser extends Command
                     foreach ($dbusers as $dbuser) {
                         $results = Capsule::select("select * from user where User='".$dbuser->user."' and Host='".$dbuser->host."'");
                         if(empty($results)){
-                            echo "User doesnt exist: ".$dbuser->user;
+                            echo "User doesnt exist in source, removing user from myguardian: ".$dbuser->user."\n";
                             $this->removeuser($dbuser->id);
                         }    
                     } 
