@@ -80,6 +80,7 @@ class SyncDBUser extends Command
                 // report error message
                 echo $e->getMessage();
             }
+            Capsule::disconnect();
         }
     }
 
@@ -115,6 +116,7 @@ class SyncDBUser extends Command
                 // report error message
                 echo $e->getMessage();
             }
+            Capsule::disconnect();
         }
     }
 

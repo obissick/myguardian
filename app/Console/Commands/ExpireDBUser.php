@@ -62,8 +62,8 @@ class ExpireDBUser extends Command
                 $dbusers = DBUser::where([['server_id', $db_server->id],['expire', '<=', date("Y-m-d H:i:s")], ['expire', '!=', null]])->get();
                 if(!$dbusers->isEmpty()){
                     foreach ($dbusers as $dbuser) {
-                        echo "User: ".$dbuser->user."@".$dbuser->host." Expired, removing access.";
-                        $results = Capsule::select("REVOKE ALL PRIVILEGES, GRANT OPTION FROM '".$dbuser->user."'@'".$dbuser->host."'");
+                        echo "User: ".$dbuser->user."@".$dbuser->host." Expired, removing access.\n";
+                        $results = Capsule::raw("REVOKE ALL PRIVILEGES, GRANT OPTION FROM '".$dbuser->user."'@'".$dbuser->host."'");
                         DBUser::where('id', $dbuser->id)->update(['expired' => true, 'expire' => null]);
                     } 
                 }
@@ -71,6 +71,7 @@ class ExpireDBUser extends Command
                 // report error message
                 echo $e->getMessage();
             }
+            Capsule::disconnect();
         }
     }
 }

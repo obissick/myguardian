@@ -8,7 +8,7 @@
     <div class="row">
         <div class="table-responsive-sm">
             <br />
-            <table class="table table-responsive display" id="users">
+            <table class="table table-striped table-responsive display" id="users">
                 <thead>
                     <tr>
                         <th>Server</th>
