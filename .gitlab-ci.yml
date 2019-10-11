@@ -8,6 +8,7 @@ variables:
   MYSQL_ROOT_PASSWORD: secret
   DB_HOST: mysql
   DB_USERNAME: root
+  DB_PASSWORD: secret
 
 stages:
   - test
