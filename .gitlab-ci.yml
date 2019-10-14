@@ -6,9 +6,9 @@ services:
 variables:
   MYSQL_DATABASE: myguardian
   MYSQL_ROOT_PASSWORD: secret
-  DB_HOST: mysql
-  DB_USERNAME: root
-  DB_PASSWORD: secret
+  DB_HOST: 10.1.20.94
+  DB_USERNAME: guard
+  DB_PASSWORD: gu@rdian
   DB_DATABASE: myguardian
 
 stages:
