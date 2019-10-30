@@ -54,7 +54,7 @@ class DBServerController extends Controller
             'user_id' => Auth::user()->id,
         ]);
         $server->save();
-        return back()->with('success', 'Server added.');
+        return back()->with('success', 'Server added, users will be available shortly.');
     }
 
     /**

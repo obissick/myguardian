@@ -66,7 +66,9 @@ class SyncDBUser extends Command
             ]);
             $capsule->setAsGlobal();
             try{
-                $results = Capsule::select('select * from user');
+                $results = Capsule::select('SELECT * FROM user');
+                $version = Capsule::select('SELECT VERSION() as version');
+                $setversion = DBServer::where('id', $db_server->id)->update(['version' => $version[0]->version]);
                 if($results){
                     foreach ($results as $result) {
                         $dbuser = DBUser::where([['server_id', $db_server->id], ['user', $result->User], ['host', $result->Host]])->get();

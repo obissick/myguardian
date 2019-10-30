@@ -9,7 +9,7 @@ class DBServer extends Model
     protected $table = 'servers';
 
     protected $fillable = [
-        'ip', 'name', 'port', 'username', 'user_id', 'password',
+        'ip', 'name', 'port', 'username', 'user_id', 'password', 'version',
     ];
 
     public function user()

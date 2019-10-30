@@ -6,9 +6,9 @@
     @include('partials.flash')
     <h2>DB Users</h2>
     <div class="row">
-        <div class="table-responsive-sm">
+        <div class="table-responsive">
             <br />
-            <table class="table table-striped table-responsive display" id="users">
+            <table class="table table-sm table-striped table-hover table-responsive display" id="users">
                 <thead>
                     <tr>
                         <th>Server</th>
@@ -16,6 +16,7 @@
                         <th>Host</th>
                         <th>Expire Date</th>
                         <th>Expired</th>
+                        <th>Delete On Expired</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -51,6 +52,14 @@
                             </td>
 
                             <td>
+                                @if ($user->delete_after_expired == 0)
+                                    No
+                                @else
+                                    Yes
+                                @endif 
+                            </td>
+
+                            <td>
                                 @if ($user->expire)
                                     <button class="btn btn-info btn-xs btn-detail edit-user" value="{{$user->id}}" data-toggle="modal" data-target="#edit">Update Expire</button>
                                 @else
@@ -68,6 +77,7 @@
                         <th>Host</th>
                         <th>Access Expire</th>
                         <th>Expired</th>
+                        <th>Delete On Expired</th>
                         <th>Actions</th>
                     </tr>
                 </tfoot>
@@ -92,6 +102,13 @@
                         <label for="name" class="col-sm-3 control-label">Expire Date/Time</label>
                         <div class="col-sm-9">
                             <input type="datetime-local" class="form-control" id="time" name="time" placeholder="" value="">
+                            <input type="hidden" id="user_id" name="user_id" value="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="delete" class="col-sm-3 control-label">Delete on Expire</label>
+                        <div class="col-sm-9">
+                            <input type="checkbox" class="form-control" id="delete" name="delete">
                             <input type="hidden" id="user_id" name="user_id" value="0">
                         </div>
                     </div>

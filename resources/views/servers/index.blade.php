@@ -16,6 +16,7 @@
                         <th>Name</th>
                         <th>IP Address</th>
                         <th>Port</th>
+                        <th>Version</th>
                         <th>Username</th>
                         <th>Actions</th>
 
@@ -34,6 +35,10 @@
                                 
                             <td>
                                 {{ $server->port }}
+                            </td>
+
+                            <td>
+                                {{ $server->version }}
                             </td>
 
                             <td>

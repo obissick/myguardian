@@ -83,7 +83,13 @@ class DBUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = DBUser::where('id', $id)->update(['expire' => date("Y/m/d H:i:s", strtotime($request->time))]);
+        if($request->delete === "on"){
+            $delete = true;
+        }else{
+            $delete = false;
+        }
+        
+        $user = DBUser::where('id', $id)->update(['expire' => date("Y/m/d H:i:s", strtotime($request->time)), 'delete_after_expired' => $delete]);
 
         return back()->with('success', 'Expire Date & Time added.');
     }
